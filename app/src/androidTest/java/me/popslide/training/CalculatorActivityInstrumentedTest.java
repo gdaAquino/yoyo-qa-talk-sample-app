@@ -11,27 +11,26 @@ import org.junit.runner.RunWith;
  * @author Gian Darren Aquino
  */
 @RunWith(AndroidJUnit4.class)
-public class MainActivityInstrumentedTest {
+public class CalculatorActivityInstrumentedTest {
 
     @Rule
-    public ActivityTestRule<MainActivity> mainActivityRule = new ActivityTestRule<>(MainActivity.class);
+    public ActivityTestRule<CalculatorActivity> mainActivityRule = new ActivityTestRule<>(CalculatorActivity.class);
 
     @Test
     public void addDisplaysCorrectResult() {
-        new MainActivityRobot()
+        new CalculatorActivityRobot()
                 .input1("100")
                 .input2("100")
-                .performAddition()
-                .resultMatches("200");
-
+                .add()
+                .isCorrect("200");
     }
 
     @Test
     public void subtractDisplaysCorrectResult() {
-        new MainActivityRobot()
+        new CalculatorActivityRobot()
                 .input1("200")
                 .input2("100")
-                .performSubtraction()
-                .resultMatches("100");
+                .subtract()
+                .isCorrect("100");
     }
 }

@@ -8,32 +8,36 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 /**
+ * https://google.github.io/android-testing-support-library/docs/espresso/basics/
+ *
  * @author Gian Darren Aquino
- *         https://google.github.io/android-testing-support-library/docs/espresso/basics/
  */
-class MainActivityRobot {
+class CalculatorActivityRobot {
 
-    MainActivityRobot input1(String input) {
+    CalculatorActivityRobot input1(String input) {
+        /** Search by id  - more specific **/
         onView(withId(R.id.input1)).perform(click()).perform(typeText(input));
+        /** Search by text **/
+        //onView(withHint("Input 1")).perform(click()).perform(typeText(input));
         return this;
     }
 
-    MainActivityRobot input2(String input) {
+    CalculatorActivityRobot input2(String input) {
         onView(withId(R.id.input2)).perform(click()).perform(typeText(input));
         return this;
     }
 
-    MainActivityRobot performAddition() {
+    CalculatorActivityRobot add() {
         onView(withId(R.id.add)).perform(click());
         return this;
     }
 
-    MainActivityRobot performSubtraction() {
+    CalculatorActivityRobot subtract() {
         onView(withId(R.id.subtract)).perform(click());
         return this;
     }
 
-    MainActivityRobot resultMatches(String result) {
+    CalculatorActivityRobot isCorrect(String result) {
         onView(withId(R.id.result)).check(matches(withText(result)));
         return this;
     }

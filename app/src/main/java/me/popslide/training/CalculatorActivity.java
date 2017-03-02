@@ -11,7 +11,7 @@ import android.widget.TextView;
 /**
  * @author Gian Darren Aquino
  */
-public class MainActivity extends Activity {
+public class CalculatorActivity extends Activity {
 
     private EditText input1;
     private EditText input2;
@@ -23,7 +23,7 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         /** Defines the layout for this activity **/
-        setContentView(R.layout.main_activity);
+        setContentView(R.layout.calculator_activity);
 
         /** Assign the Views to its Variable so we can access it later **/
         input1 = (EditText) findViewById(R.id.input1);
