@@ -1,5 +1,7 @@
 package me.popslide.training;
 
+import android.support.test.filters.LargeTest;
+import android.support.test.filters.RequiresDevice;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
@@ -10,15 +12,17 @@ import org.junit.runner.RunWith;
 /**
  * @author Gian Darren Aquino
  */
+@LargeTest
+@RequiresDevice
 @RunWith(AndroidJUnit4.class)
 public class CalculatorActivityInstrumentedTest {
 
     @Rule
-    public ActivityTestRule<CalculatorActivity> mainActivityRule = new ActivityTestRule<>(CalculatorActivity.class);
+    public ActivityTestRule<CalculatorActivity> mActivityRule = new ActivityTestRule<>(CalculatorActivity.class);
 
     @Test
     public void addDisplaysCorrectResult() {
-        new CalculatorActivityRobot()
+        new CalculatorActivityRobot(mActivityRule.getActivity())
                 .input1("100")
                 .input2("100")
                 .add()
@@ -27,7 +31,7 @@ public class CalculatorActivityInstrumentedTest {
 
     @Test
     public void subtractDisplaysCorrectResult() {
-        new CalculatorActivityRobot()
+        new CalculatorActivityRobot(mActivityRule.getActivity())
                 .input1("200")
                 .input2("100")
                 .subtract()

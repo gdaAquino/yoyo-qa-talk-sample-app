@@ -1,5 +1,6 @@
 package me.popslide.training;
 
+import android.app.Activity;
 import android.support.test.uiautomator.By;
 import android.support.test.uiautomator.UiDevice;
 import android.support.test.uiautomator.UiObject;
@@ -21,42 +22,44 @@ public class PlayStoreRobot {
     private static final int ASYNC_TIMEOUT = 30_000;
     private static final String PACKAGE_NAME = "com.android.vending";
 
-    private UiDevice device;
+    private final UiDevice mDevice;
+    private final Activity mActivity;
 
-    public PlayStoreRobot(UiDevice device) {
-        this.device = device;
+    public PlayStoreRobot(UiDevice device, Activity activity) {
+        mDevice = device;
+        mActivity = activity;
     }
 
     public PlayStoreRobot isDisplayingPlayStore() {
-        assertTrue("PlayStore is not displayed", device.wait(Until.hasObject(By.pkg(PACKAGE_NAME).depth(0)), UI_TIMEOUT));
+        assertTrue("PlayStore is not displayed", mDevice.wait(Until.hasObject(By.pkg(PACKAGE_NAME).depth(0)), UI_TIMEOUT));
         return this;
     }
 
     public PlayStoreRobot isDisplayingApplicationName(String name) {
-        assertTrue("Application is not displayed", device.findObject(new UiSelector().text(name)).exists());
+        assertTrue("Application is not displayed", mDevice.findObject(new UiSelector().text(name)).exists());
         return this;
     }
 
     public PlayStoreRobot isNotInstalled() {
-        assertTrue("Application is not Installed", device.findObject(new UiSelector().text("INSTALL")).exists());
+        assertTrue("Application is not Installed", mDevice.findObject(new UiSelector().text("INSTALL")).exists());
         return this;
     }
 
     public PlayStoreRobot install() throws UiObjectNotFoundException {
-        device.findObject(new UiSelector().text("INSTALL")).click();
+        mDevice.findObject(new UiSelector().text("INSTALL")).click();
         return this;
     }
 
     public PlayStoreRobot isDownloading() {
-        device.wait(Until.hasObject(By.res("com.android.vending:id/progress_bar")), UI_TIMEOUT);
-        UiObject progress = device.findObject(new UiSelector().resourceId("com.android.vending:id/progress_bar"));
+        mDevice.wait(Until.hasObject(By.res("com.android.vending:id/progress_bar")), UI_TIMEOUT);
+        UiObject progress = mDevice.findObject(new UiSelector().resourceId("com.android.vending:id/progress_bar"));
         assertTrue("Not downloading...", progress.exists());
         return this;
     }
 
     public PlayStoreRobot isRunningApplication(String application) {
-        device.wait(Until.hasObject(By.pkg(application).depth(0)), ASYNC_TIMEOUT);
-        assertThat(device.getCurrentPackageName(), Matchers.equalTo(application));
+        mDevice.wait(Until.hasObject(By.pkg(application).depth(0)), ASYNC_TIMEOUT);
+        assertThat(mDevice.getCurrentPackageName(), Matchers.equalTo(application));
         return this;
     }
 }

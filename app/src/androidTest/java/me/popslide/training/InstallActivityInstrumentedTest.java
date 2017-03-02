@@ -23,7 +23,7 @@ public class InstallActivityInstrumentedTest {
     private static final String PACKAGE_NAME_PIANO_POP = "com.yoyo.PianoPop.android";
 
     @Rule
-    public ActivityTestRule<InstallActivity> mainActivityRule = new ActivityTestRule<>(InstallActivity.class);
+    public ActivityTestRule<InstallActivity> mActivityRule = new ActivityTestRule<>(InstallActivity.class);
     public UiDevice device;
 
     @Before
@@ -33,19 +33,22 @@ public class InstallActivityInstrumentedTest {
 
     @Test
     public void open() {
-        new InstallActivityRobot()
+        new InstallActivityRobot(mActivityRule.getActivity())
                 .input(PACKAGE_NAME_PLAYSTORE)
                 .isOpen()
                 .execute();
+        new PlayStoreRobot(device, mActivityRule.getActivity())
+                .isRunningApplication(PACKAGE_NAME_PLAYSTORE);
     }
 
     @Test
     public void install() throws Exception {
-        new InstallActivityRobot()
+        new InstallActivityRobot(mActivityRule.getActivity())
                 .input(PACKAGE_NAME_PIANO_POP)
                 .isInstall()
                 .execute();
-        new PlayStoreRobot(device)
+        /** Install application **/
+        new PlayStoreRobot(device, mActivityRule.getActivity())
                 .isDisplayingPlayStore()
                 .isDisplayingApplicationName(APP_NAME_PIANO_POP)
                 .isNotInstalled()
@@ -55,8 +58,8 @@ public class InstallActivityInstrumentedTest {
         /** Go back to our application **/
         Utils.runApplication(PACKAGE_NAME_APP, InstallActivity.class);
         /** PlayStore auto run app so wait for it **/
-        new PlayStoreRobot(device).isRunningApplication(PACKAGE_NAME_APP);
-        new InstallActivityRobot()
+        new PlayStoreRobot(device, mActivityRule.getActivity()).isRunningApplication(PACKAGE_NAME_APP);
+        new InstallActivityRobot(mActivityRule.getActivity())
                 .input(PACKAGE_NAME_PIANO_POP)
                 .isOpen();
     }

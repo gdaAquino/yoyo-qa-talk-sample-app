@@ -1,5 +1,9 @@
 package me.popslide.training;
 
+import android.app.Activity;
+
+import com.squareup.spoon.Spoon;
+
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.typeText;
@@ -14,16 +18,21 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
  */
 class CalculatorActivityRobot {
 
+    private Activity mActivity;
+
+    public CalculatorActivityRobot(Activity activity) {
+        mActivity = activity;
+    }
+
     CalculatorActivityRobot input1(String input) {
-        /** Search by id  - more specific **/
         onView(withId(R.id.input1)).perform(click()).perform(typeText(input));
-        /** Search by text **/
-        //onView(withHint("Input 1")).perform(click()).perform(typeText(input));
+        Spoon.screenshot(mActivity, "Input_1");
         return this;
     }
 
     CalculatorActivityRobot input2(String input) {
         onView(withId(R.id.input2)).perform(click()).perform(typeText(input));
+        Spoon.screenshot(mActivity, "Input_2");
         return this;
     }
 
@@ -39,6 +48,7 @@ class CalculatorActivityRobot {
 
     CalculatorActivityRobot isCorrect(String result) {
         onView(withId(R.id.result)).check(matches(withText(result)));
+        Spoon.screenshot(mActivity, "Correct");
         return this;
     }
 }
